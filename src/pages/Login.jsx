@@ -1,15 +1,15 @@
 import LandNav from "../components/Nav/LandNav";
 import Footer from "../components/Footer/Footer";
-import styles from "./Home.module.css";
+import styles from "./Login.module.css";
 
-function Home() {
+function Login() {
   return (
     <>
       <LandNav />
-      <main className={styles.main}>Home</main>
+      <main className={styles.main}>login</main>
       <Footer />
     </>
   );
 }
 
-export default Home;
+export default Login;
