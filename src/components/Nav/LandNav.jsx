@@ -4,7 +4,7 @@ import "./LandNav.css";
 
 function LandNav() {
   return (
-    <nav>
+    <nav id="nav">
       <header className="header">
         <div className="container">
           <NavLink to="/" className="logo">
@@ -18,22 +18,22 @@ function LandNav() {
           <ul className="menu">
             <li>
               <NavLink to="/" className="active">
-                About
+                Home
               </NavLink>
             </li>
             <li>
               <NavLink to="/app" className="active">
-                Listings
+                Library
               </NavLink>
             </li>
             <li>
               <NavLink to="/signup" className="active">
-                Get Started
+                Contact
               </NavLink>
             </li>
             <li>
               <NavLink to="/login" className="active">
-                Login
+                Register
               </NavLink>
             </li>
           </ul>

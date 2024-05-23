@@ -1,19 +1,22 @@
-.logo {
-  color: var(--text);
-  display: inline-lock;
-}
-.logo-img {
-  /* width: 3.5rem; */
-  height: 3.5rem;
-}
-.header {
+#nav {
   background-color: var(--secondary);
   box-shadow: 1px 1px 4px 0 var(--accent);
   position: fixed;
   width: 100%;
   z-index: 3;
   padding: 0 0.3rem;
-  border: 1px solid #000;
+}
+
+.logo {
+  color: var(--text);
+  display: inline-lock;
+}
+.logo-img {
+  height: 3.5rem;
+}
+.header {
+  width: 85%;
+  margin: 0 auto;
 }
 
 .header ul {
@@ -36,7 +39,6 @@
 .header .menu-btn:hover {
   background-color: var(--accent);
   transition: all 0.3s ease-in;
-  /* opacity: 0.5; */
   color: var(--background);
 }
 
