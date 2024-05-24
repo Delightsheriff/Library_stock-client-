@@ -1,3 +1,76 @@
 .main {
-  height: 100dvh;
+  height: 90dvh;
+}
+
+.outer {
+  background: url("../assets/bg-main.png");
+  background-size: cover;
+  background-position: center;
+  color: var(--background);
+}
+
+.container {
+  margin: 0 auto;
+  margin-top: 4rem;
+  padding: 3rem;
+  text-align: center;
+}
+.container_in {
+  margin: 2rem auto;
+  padding: 3rem;
+  text-align: center;
+}
+
+.title {
+  font-size: clamp(1rem, 2vw, 1.7rem);
+  margin-bottom: 1rem;
+}
+
+.description {
+  margin: 0 auto;
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
+  margin-bottom: 2.5rem;
+}
+
+.subtitle {
+  font-size: clamp(0.9rem, 2vw, 1.4rem);
+  margin-bottom: 1rem;
+  margin: 0 auto;
+}
+.subtitle span {
+  color: var(--secondary);
+  text-decoration: underline;
+}
+
+.btn {
+  background-color: var(--secondary);
+  color: var(--background);
+  padding: 0.7rem 1rem;
+  border: none;
+  cursor: pointer;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  margin: 1rem 0;
+  border-radius: 10px;
+}
+
+.nb {
+  margin-top: 2rem;
+  font-size: clamp(1rem, 2vw, 1.6rem);
+  font-weight: bold;
+}
+.nb span {
+  color: red;
+}
+
+/* large screens */
+@media (min-width: 768px) {
+  .container {
+    width: 85%;
+  }
+  .description {
+    width: 60%;
+  }
+  .subtitle {
+    width: 60%;
+  }
 }
