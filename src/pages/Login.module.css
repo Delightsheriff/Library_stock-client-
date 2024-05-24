@@ -1,3 +1,89 @@
 .main {
-  height: 90dvh;
+  min-height: 100dvh;
+}
+
+.outer {
+  background: url("../assets/bg-main.png");
+  background-size: cover;
+  background-position: center;
+  color: var(--background);
+  background-repeat: no-repeat;
+}
+
+.container {
+  margin: 0 auto;
+  margin-top: 4rem;
+  padding: 3rem;
+  text-align: center;
+}
+
+.title {
+  font-size: clamp(1rem, 2vw, 1.7rem);
+  margin-bottom: 1rem;
+}
+
+.description {
+  margin: 0 auto;
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
+}
+
+/* form */
+
+.form {
+  background: var(--background);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 30rem;
+  margin: 0 auto;
+  margin-top: 4rem !important;
+}
+.center {
+  text-align: center;
+}
+.title {
+  font-size: 1.875rem;
+  font-weight: bold;
+}
+.logo_img {
+  width: 4rem;
+  height: 4rem;
+}
+.sub_title {
+  color: var(--accent);
+  margin: 1rem 0;
+}
+.input_box {
+  margin-bottom: 1rem;
+}
+.input_space {
+  margin-bottom: 0.5rem;
+}
+.underline {
+  text-decoration: underline;
+}
+.button {
+  width: 100%;
+}
+.pass {
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+/* large screens */
+@media (min-width: 768px) {
+  .form {
+    margin-bottom: 2rem !important;
+  }
+  .container {
+    width: 85%;
+  }
+  .description {
+    width: 60%;
+  }
+  .subtitle {
+    width: 60%;
+  }
 }

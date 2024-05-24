@@ -1,5 +1,7 @@
 .main {
   background: url("../../assets/bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 /* Base styles for all screens */
 .footer {

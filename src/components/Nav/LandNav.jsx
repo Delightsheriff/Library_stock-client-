@@ -32,7 +32,7 @@ function LandNav() {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/login" className="active">
+              <NavLink to="/register" className="active">
                 Register
               </NavLink>
             </li>

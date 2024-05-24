@@ -1,10 +1,10 @@
 .main {
-  height: 90dvh;
+  min-height: 90dvh;
 }
 
 .outer {
   background: url("../assets/bg-main.png");
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   color: var(--background);
 }
@@ -40,6 +40,7 @@
 .subtitle span {
   color: var(--secondary);
   text-decoration: underline;
+  font-style: italic;
 }
 
 .btn {
