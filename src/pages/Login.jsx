@@ -48,8 +48,8 @@ function Login() {
             </div>
             <div className={styles.pass}>
               Don&apos;t have an account? &nbsp;
-              <Link className={styles.underline} to="/login">
-                Login
+              <Link className={styles.underline} to="/register">
+                Create account
               </Link>
             </div>
           </form>

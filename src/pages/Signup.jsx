@@ -58,7 +58,7 @@ function Signup() {
             </div>
             <div className={styles.pass}>
               Already have an account? &nbsp;
-              <Link className={styles.underline} to="/signup">
+              <Link className={styles.underline} to="/login">
                 Login
               </Link>
             </div>
