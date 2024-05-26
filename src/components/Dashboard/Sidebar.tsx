@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import { Link } from "react-router-dom";
 import {
   IconButton,
   Avatar,
@@ -9,7 +10,7 @@ import {
   VStack,
   Icon,
   useColorModeValue,
-  Link,
+  // Link,
   Drawer,
   DrawerContent,
   Text,
@@ -39,13 +40,13 @@ import logo from "../../assets/uniport logo.png";
 interface LinkItemProps {
   name: string;
   icon: IconType;
-  ref?: string;
+  to: string;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Home", icon: FiHome, ref: "/books" },
-  { name: "Add a Book", icon: FiBook, ref: "/add-book" },
-  { name: "Borrow Book", icon: FiBookmark, ref: "/borrow-book" },
-  { name: "Settings", icon: FiSettings, ref: "/settings" },
+  { name: "Home", icon: FiHome, to: "/books" },
+  { name: "Add a Book", icon: FiBook, to: "books/add-book" },
+  { name: "Borrow Book", icon: FiBookmark, to: "books/borrow-book" },
+  { name: "Settings", icon: FiSettings, to: "books/settings" },
 ];
 
 export default function SidebarWithHeader({
@@ -104,7 +105,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem to={link.to} key={link.name} icon={link.icon}>
           {link.name}
         </NavItem>
       ))}
@@ -115,14 +116,14 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 interface NavItemProps extends FlexProps {
   icon: IconType;
   children: ReactText;
-  ref: string;
+  to: string;
 }
-const NavItem = ({ icon, children, ref, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, children, to, ...rest }: NavItemProps) => {
   return (
     <Link
-      href={ref}
+      to={to}
       style={{ textDecoration: "none" }}
-      _focus={{ boxShadow: "none" }}
+      // _focus={{ boxShadow: "none" }}
     >
       <Flex
         align="center"

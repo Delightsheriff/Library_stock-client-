@@ -26,9 +26,9 @@ function App() {
             <Route path="books" element={<MainApp />}>
               {/* All Categories of the books */}
               <Route index element={<AllBooks />} />
-              <Route path="add-book" element={<p>Add a book</p>} />
-              <Route path="borrow-book" element={<p>Borrow a book</p>} />
-              <Route path="settings" element={<p>Settings</p>} />
+              <Route path="books/add-book" element={<p>Add a book</p>} />
+              <Route path="books/borrow-book" element={<p>Borrow a book</p>} />
+              <Route path="books/settings" element={<p>Settings</p>} />
               {/*  */}
               <Route
                 path="books/programming-languages"
