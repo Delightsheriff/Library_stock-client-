@@ -7,11 +7,12 @@ function Dashboard() {
     <>
       <div className="maincontainer">
         <ChakraProvider>
-          <SidebarWithHeader />
+          <SidebarWithHeader>
+            <main>
+              <Outlet />
+            </main>
+          </SidebarWithHeader>
         </ChakraProvider>
-        <main>
-          <Outlet />
-        </main>
       </div>
     </>
   );

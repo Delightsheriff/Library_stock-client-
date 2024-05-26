@@ -39,12 +39,13 @@ import logo from "../../assets/uniport logo.png";
 interface LinkItemProps {
   name: string;
   icon: IconType;
+  ref?: string;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Home", icon: FiHome },
-  { name: "Add a Book", icon: FiBook },
-  { name: "Borrow Book", icon: FiBookmark },
-  { name: "Settings", icon: FiSettings },
+  { name: "Home", icon: FiHome, ref: "/books" },
+  { name: "Add a Book", icon: FiBook, ref: "/add-book" },
+  { name: "Borrow Book", icon: FiBookmark, ref: "/borrow-book" },
+  { name: "Settings", icon: FiSettings, ref: "/settings" },
 ];
 
 export default function SidebarWithHeader({
@@ -75,6 +76,7 @@ export default function SidebarWithHeader({
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
+        {/* enter your contents here */}
         {children}
       </Box>
     </Box>
@@ -113,11 +115,12 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 interface NavItemProps extends FlexProps {
   icon: IconType;
   children: ReactText;
+  ref: string;
 }
-const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, children, ref, ...rest }: NavItemProps) => {
   return (
     <Link
-      href="#"
+      href={ref}
       style={{ textDecoration: "none" }}
       _focus={{ boxShadow: "none" }}
     >

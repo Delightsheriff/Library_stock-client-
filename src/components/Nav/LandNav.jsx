@@ -22,7 +22,7 @@ function LandNav() {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/dashboard" className="active">
+              <NavLink to="/books" className="active">
                 Library
               </NavLink>
             </li>
