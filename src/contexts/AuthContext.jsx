@@ -1,176 +1,131 @@
-import {
-  createContext,
-  useContext,
-  useReducer,
-  useState,
-  useEffect,
-} from "react";
+import { createContext, useContext, useReducer, useState } from "react";
 import toast from "react-hot-toast";
 import PropTypes from "prop-types";
 
 const AuthContext = createContext();
 
-// const BASE_URL = 'https://handshake-edac.onrender.com/api';
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = "http://localhost:4001/api/v1";
 
 const initialState = {
-  user: null,
-  isAuthenticated: false,
+  user: JSON.parse(localStorage.getItem("user")) || null,
+  isAuthenticated: !!localStorage.getItem("accessToken"),
+  accessToken: localStorage.getItem("accessToken") || null,
+  refreshToken: localStorage.getItem("refreshToken") || null,
 };
 
 function reducer(state, action) {
   switch (action.type) {
     case "createAccount":
       return { ...state, user: action.payload };
+
     case "login":
-      return { ...state, user: action.payload, isAuthenticated: true };
+      return {
+        ...state,
+        user: action.payload.user,
+        isAuthenticated: true,
+        accessToken: action.payload.jwt,
+        refreshToken: action.payload.refreshToken,
+      };
+
     case "logout":
-      return { ...state, user: action.payload, isAuthenticated: false };
-    case "deleteAccount":
-      return { ...state, user: action.payload, isAuthenticated: false };
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("user");
+      return {
+        ...state,
+        user: null,
+        isAuthenticated: false,
+        accessToken: null,
+        refreshToken: null,
+      };
     default:
-      throw new Error("Unknown action");
+      throw new Error(`Unknown action type: ${action.type}`);
   }
 }
 
 function AuthProvider({ children }) {
   const [loading, setLoading] = useState(false);
-  const [{ user, isAuthenticated }, dispatch] = useReducer(
+  const [{ user, isAuthenticated, accessToken }, dispatch] = useReducer(
     reducer,
     initialState,
-    () => {
-      // Initialize state from localStorage
-      const storedState = localStorage.getItem("authState");
-      return storedState ? JSON.parse(storedState) : initialState;
-    },
   );
 
-  // Save state to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem(
-      "authState",
-      JSON.stringify({ user, isAuthenticated }),
-    );
-  }, [user, isAuthenticated]);
-
   async function createAccount(data) {
+    setLoading(true);
     try {
-      setLoading(true);
-      const response = await fetch(`${BASE_URL}/signup`, {
+      const response = await fetch(`${BASE_URL}/auth/register`, {
         method: "POST",
-        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
-      console.log(response);
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.log("Server error:", errorData);
-        toast.error(errorData.error);
-        throw new Error(errorData.error.message);
-      }
 
-      const ResponseData = await response.json();
-      console.log(ResponseData);
-      dispatch({ type: "createAccount", payload: ResponseData });
-      toast.success("Account created successfully");
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-      toast.error(error);
-      setLoading(false);
-    }
-  }
-
-  async function login({ email, password }) {
-    try {
-      setLoading(true);
-      const formData = new FormData();
-      formData.append("email", email);
-      formData.append("password", password);
-
-      const response = await fetch(`${BASE_URL}/login`, {
-        method: "POST",
-        credentials: "include",
-        body: formData,
-      });
+      const result = await response.json();
 
       if (response.ok) {
-        const data = await response.json();
-        dispatch({ type: "login", payload: data.current_user });
-        setLoading(false);
+        dispatch({ type: "createAccount", payload: result.data });
+        toast.success(result.message);
       } else {
-        const errorData = await response.json();
-        const errorMessage = errorData?.error;
-        setLoading(false);
-        toast.error(errorMessage);
+        toast.error(result.message);
       }
     } catch (error) {
-      setLoading(false);
-      toast.error("Something went wrong. Please try again.");
-    }
-  }
-  async function deleteAccount(user) {
-    try {
-      setLoading(true);
-      const formData = new FormData();
-      formData.append("user", user.id);
-
-      fetch(`${BASE_URL}/settings/delete`, {
-        credentials: "include",
-        method: "DELETE",
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          dispatch({ type: "deleteAccount", payload: data });
-          toast.success("Account deleted successfully");
-        })
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.error(error); // This line logs the error to the console.
-      toast.error("Something went wrong. Please try again."); // This line shows a toast error message.
+      toast.error("An error occurred. Please try again.");
     } finally {
-      setLoading(false); // This line sets the loading state to false after the API call, regardless of whether it was successful or not.
+      setLoading(false);
     }
   }
 
-  async function logout() {
+  async function login(data) {
+    setLoading(true);
     try {
-      setLoading(true);
-      console.log("Attempting to log out...");
-
-      const response = await fetch(`${BASE_URL}/logout`, {
-        credentials: "include",
-        method: "GET",
+      const response = await fetch(`${BASE_URL}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
 
-      if (!response.ok) {
-        const errorMessage = response.statusText || "An error occurred";
-        throw new Error(errorMessage);
-      }
+      const result = await response.json();
 
-      dispatch({ type: "logout", payload: {} }); // Empty payload
-      console.log("Logout successful");
+      if (response.ok) {
+        const { jwt, refreshToken, user } = result;
+        localStorage.setItem("accessToken", jwt);
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("user", JSON.stringify(user));
+        dispatch({ type: "login", payload: result });
+        toast.success(result.statusText || "Login successful!");
+      } else {
+        toast.error(
+          result.error ||
+            result.message ||
+            "An error occurred. Please try again.",
+        );
+      }
     } catch (error) {
-      console.error("Logout failed", error);
-      toast.error("Something went wrong. Please try again.");
+      toast.error(error.message || "An error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
   }
+
+  function logout() {
+    dispatch({ type: "logout" });
+  }
+
   return (
     <AuthContext.Provider
       value={{
         user,
         isAuthenticated,
+        accessToken,
+        dispatch,
+        loading,
+        setLoading,
+        logout,
         createAccount,
         login,
-        logout,
-        loading,
-        deleteAccount,
       }}
     >
       {children}
