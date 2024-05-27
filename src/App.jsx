@@ -2,13 +2,17 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Spinner from "./components/Spinners/Spinner";
-import AllBooks from "./components/Books/AllBooks";
+import BorrowersList from "./components/Books/BookBorrowers";
 
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 const Home = lazy(() => import("./pages/Home"));
 const Signup = lazy(() => import("./pages/Signup"));
 const Login = lazy(() => import("./pages/Login"));
 const MainApp = lazy(() => import("./pages/MainApp"));
+const AllBooks = lazy(() => import("./components/Books/AllBooks"));
+const BookList = lazy(() => import("./components/Books/BookList"));
+const AddBook = lazy(() => import("./components/Books/AddBook"));
+const BookBorrow = lazy(() => import("./components/Books/BookBorrow"));
 
 function App() {
   return (
@@ -26,13 +30,41 @@ function App() {
             <Route path="books" element={<MainApp />}>
               {/* All Categories of the books */}
               <Route index element={<AllBooks />} />
-              <Route path="books/add-book" element={<p>Add a book</p>} />
-              <Route path="books/borrow-book" element={<p>Borrow a book</p>} />
+              <Route path="books/add-book" element={<AddBook />} />
+              <Route path="books/borrow-book" element={<BookBorrow />} />
+              <Route path="books/book-borrowers" element={<BorrowersList />} />
               <Route path="books/settings" element={<p>Settings</p>} />
               {/*  */}
+              <Route path="programming-languages" element={<BookList />} />
               <Route
-                path="books/programming-languages"
-                element={<h1>Programming Languages</h1>}
+                path="software-development"
+                element={<h1>software-development</h1>}
+              />
+              <Route
+                path="computer-science"
+                element={<h1>computer-science</h1>}
+              />
+              <Route
+                path="web-development"
+                element={<h1>web-development</h1>}
+              />
+              <Route
+                path="database-management"
+                element={<h1>database-management</h1>}
+              />
+              <Route
+                path="artificial-intelligence"
+                element={<h1>artificial-intelligence</h1>}
+              />
+              <Route path="cybersecurity" element={<h1>cybersecurity</h1>} />
+              <Route
+                path="computer-graphics"
+                element={<h1>computer-graphics</h1>}
+              />
+              <Route path="networking" element={<h1>networking</h1>} />
+              <Route
+                path="operating-systems"
+                element={<h1>operating-systems</h1>}
               />
             </Route>
             <Route path="*" element={<PageNotFound />} />

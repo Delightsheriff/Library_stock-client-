@@ -14,61 +14,61 @@ function AllBooks() {
         </div>
         <div className={styles.cardGrid}>
           <section className={styles.card}>
-            <Link to="/books/programming-languages" className={styles.card}>
+            <Link to="programming-languages" className={styles.card}>
               <CodeIcon className={styles.icon} />
               <h3 className={styles.cardTitle}>Programming Languages</h3>
             </Link>
           </section>
           <section className={styles.card}>
-            <Link to="/books/software-development" className={styles.card}>
+            <Link to="software-development" className={styles.card}>
               <LaptopIcon className={styles.icon} />
               <h3 className={styles.cardTitle}>Software Development</h3>
             </Link>
           </section>
           <section className={styles.card}>
-            <Link to="/books/computer-science" className={styles.card}>
+            <Link to="computer-science" className={styles.card}>
               <BrainIcon className={styles.icon} />
               <h3 className={styles.cardTitle}>Computer Science</h3>
             </Link>
           </section>
           <section className={styles.card}>
-            <Link to="/books/web-development" className={styles.card}>
+            <Link to="web-development" className={styles.card}>
               <GlobeIcon className={styles.icon} />
               <h3 className={styles.cardTitle}>Web Development</h3>
             </Link>
           </section>
           <section className={styles.card}>
-            <Link to="/books/database-management" className={styles.card}>
+            <Link to="database-management" className={styles.card}>
               <DatabaseIcon className={styles.icon} />
               <h3 className={styles.cardTitle}>Database Management</h3>
             </Link>
           </section>
           <section className={styles.card}>
-            <Link to="/books/artificial-intelligence" className={styles.card}>
+            <Link to="artificial-intelligence" className={styles.card}>
               <BotIcon className={styles.icon} />
               <h3 className={styles.cardTitle}>Artificial Intelligence</h3>
             </Link>
           </section>
           <section className={styles.card}>
-            <Link to="/books/cybersecurity" className={styles.card}>
+            <Link to="cybersecurity" className={styles.card}>
               <ShieldIcon className={styles.icon} />
               <h3 className={styles.cardTitle}>Cybersecurity</h3>
             </Link>
           </section>
           <section className={styles.card}>
-            <Link to="/books/computer-graphics" className={styles.card}>
+            <Link to="computer-graphics" className={styles.card}>
               <PaletteIcon className={styles.icon} />
               <h3 className={styles.cardTitle}>Computer Graphics</h3>
             </Link>
           </section>
           <section className={styles.card}>
-            <Link to="/books/networking" className={styles.card}>
+            <Link to="networking" className={styles.card}>
               <NetworkIcon className={styles.icon} />
               <h3 className={styles.cardTitle}>Networking</h3>
             </Link>
           </section>
           <section className={styles.card}>
-            <Link to="/books/operating-systems" className={styles.card}>
+            <Link to="operating-systems" className={styles.card}>
               <ComputerIcon className={styles.icon} />
               <h3 className={styles.cardTitle}>Operating Systems</h3>
             </Link>

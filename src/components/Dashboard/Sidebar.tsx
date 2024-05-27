@@ -32,9 +32,11 @@ import {
   FiBell,
   FiChevronDown,
   FiBook,
+  FiList,
 } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
+// @ts-ignore
 import logo from "../../assets/uniport logo.png";
 
 interface LinkItemProps {
@@ -46,6 +48,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, to: "/books" },
   { name: "Add a Book", icon: FiBook, to: "books/add-book" },
   { name: "Borrow Book", icon: FiBookmark, to: "books/borrow-book" },
+  { name: "Borrowers List", icon: FiList, to: "books/book-borrowers" },
   { name: "Settings", icon: FiSettings, to: "books/settings" },
 ];
 
