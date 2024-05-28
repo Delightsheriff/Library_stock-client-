@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
-const BASE_URL = "http://localhost:4001/api/v1";
+const BASE_URL = "http://localhost:4001/api/v1/auth";
 
 const initialState = {
   user: JSON.parse(localStorage.getItem("user")) || null,
@@ -55,7 +55,7 @@ function AuthProvider({ children }) {
   async function createAccount(data) {
     setLoading(true);
     try {
-      const response = await fetch(`${BASE_URL}/auth/register`, {
+      const response = await fetch(`${BASE_URL}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +88,7 @@ function AuthProvider({ children }) {
     console.log(data);
     setLoading(true);
     try {
-      const response = await fetch(`${BASE_URL}/auth/login`, {
+      const response = await fetch(`${BASE_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
