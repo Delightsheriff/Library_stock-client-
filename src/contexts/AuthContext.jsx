@@ -1,6 +1,7 @@
 import { createContext, useContext, useReducer, useState } from "react";
 import toast from "react-hot-toast";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
@@ -44,6 +45,7 @@ function reducer(state, action) {
 }
 
 function AuthProvider({ children }) {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [{ user, isAuthenticated, accessToken }, dispatch] = useReducer(
     reducer,
@@ -65,9 +67,15 @@ function AuthProvider({ children }) {
 
       if (response.ok) {
         dispatch({ type: "createAccount", payload: result.data });
-        toast.success(result.message);
+        toast.success(result.statusText || "Login successful!");
+        navigate("/login");
       } else {
-        toast.error(result.message);
+        toast.error(
+          result.msg ||
+            result.error ||
+            result.message ||
+            "An error occurred. Please try again.",
+        );
       }
     } catch (error) {
       toast.error("An error occurred. Please try again.");

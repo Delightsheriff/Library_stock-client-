@@ -19,8 +19,8 @@ const BookBorrow = lazy(() => import("./components/Books/BookBorrow"));
 function App() {
   return (
     <>
-      <AuthProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <AuthProvider>
           <Suspense fallback={<Spinner />}>
             <Routes>
               {/* Add routes here */}
@@ -83,30 +83,30 @@ function App() {
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </Suspense>
-        </BrowserRouter>
-        <Toaster
-          position="top-center"
-          gutter={12}
-          containerStyle={{
-            margin: "8px",
-          }}
-          toastOptions={{
-            success: {
-              duration: 3000,
-            },
-            error: {
-              duration: 3000,
-            },
-            style: {
-              fontSize: "16px",
-              maxWidth: "580px",
-              padding: "16px 24px",
-              background: "var(--background)",
-              color: "var(--text)",
-            },
-          }}
-        />
-      </AuthProvider>
+          <Toaster
+            position="top-center"
+            gutter={12}
+            containerStyle={{
+              margin: "8px",
+            }}
+            toastOptions={{
+              success: {
+                duration: 3000,
+              },
+              error: {
+                duration: 3000,
+              },
+              style: {
+                fontSize: "16px",
+                maxWidth: "580px",
+                padding: "16px 24px",
+                background: "var(--background)",
+                color: "var(--text)",
+              },
+            }}
+          />
+        </AuthProvider>
+      </BrowserRouter>
     </>
   );
 }

@@ -38,6 +38,7 @@ import { IconType } from "react-icons";
 import { ReactText } from "react";
 // @ts-ignore
 import logo from "../../assets/uniport logo.png";
+import { useAuth } from "../../contexts/AuthContext";
 
 interface LinkItemProps {
   name: string;
@@ -161,6 +162,8 @@ interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+  const { logout, user } = useAuth();
+  console.log(user);
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -181,14 +184,13 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         icon={<FiMenu />}
       />
 
-      <Text
+      <Image
         display={{ base: "flex", md: "none" }}
-        fontSize="2xl"
-        fontFamily="monospace"
-        fontWeight="bold"
-      >
-        Logo
-      </Text>
+        boxSize="40px"
+        objectFit="cover"
+        src={logo}
+        alt="logo"
+      />
 
       <HStack spacing={{ base: "0", md: "6" }}>
         <IconButton
@@ -208,7 +210,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                 <Avatar
                   size={"sm"}
                   src={
-                    "https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
+                    "data:image/jpeg;base64,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"
                   }
                 />
                 <VStack
@@ -218,7 +220,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   ml="2"
                 >
                   <Text fontSize="sm" color="blue.900">
-                    Justina Clark
+                    {user ? user.username : "Guest"}
                   </Text>
                   <Text fontSize="xs" color="blue.600">
                     Admin
@@ -233,9 +235,8 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               bg={useColorModeValue("white", "gray.900")}
               borderColor={useColorModeValue("gray.200", "gray.700")}
             >
-              <MenuItem>Profile</MenuItem>
               <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem onClick={logout}>Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

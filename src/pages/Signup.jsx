@@ -2,8 +2,49 @@ import LandNav from "../components/Nav/LandNav";
 import Footer from "../components/Footer/Footer";
 import styles from "./Signup.module.css";
 import { Link } from "react-router-dom";
+import { isEmpty, isEmail, isLength } from "../utils/helpers";
+import { useAuth } from "../contexts/AuthContext";
+import toast from "react-hot-toast";
+import { useState } from "react";
+import Spinner from "../components/Spinners/Spinner";
 
 function Signup() {
+  const { createAccount, loading } = useAuth();
+
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      username,
+      email,
+      password,
+    };
+
+    if (isEmpty(username)) {
+      toast.error("Please enter your username.");
+      return;
+    }
+
+    if (!isEmail(email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+    if (!isLength(password)) {
+      toast.error("Please enter a password with at least 8 characters.");
+      return;
+    }
+
+    try {
+      createAccount(data);
+    } catch (error) {
+      // Handle any errors occurred during signup
+      toast.error("Failed to create account. Please try again.");
+    }
+  };
+
   return (
     <>
       <LandNav />
@@ -22,7 +63,7 @@ function Signup() {
           </div>
         </section>
         <div className={styles.divide}>
-          <form className={styles.form}>
+          <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.center}>
               <p className={styles.sub_title}>Create An Account</p>
             </div>
@@ -34,6 +75,8 @@ function Signup() {
                   placeholder="Enter your username"
                   required
                   type="text"
+                  onChange={(e) => setUsername(e.target.value)}
+                  value={username}
                 />
               </div>
               <div className={styles.input_box}>
@@ -43,6 +86,8 @@ function Signup() {
                   placeholder="m@example.com"
                   required
                   type="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
                 />
               </div>
               <div className={styles.input_box}>
@@ -52,6 +97,8 @@ function Signup() {
                   placeholder="Enter your password"
                   required
                   type="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
                 />
               </div>
               <button className={styles.button}>Register</button>
@@ -66,6 +113,7 @@ function Signup() {
         </div>
       </main>
       <Footer />
+      {loading && <Spinner />}
     </>
   );
 }
