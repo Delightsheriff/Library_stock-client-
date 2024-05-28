@@ -28,7 +28,9 @@ const BookCard = ({ book }) => {
           </div>
           <div className={styles.infoRow}>
             <span className={styles.infoLabel}>Publication Date:</span>
-            <span className={styles.infoValue}>{book.publication_date}</span>
+            <span className={styles.infoValue}>
+              {book.publication_date.substring(0, 4)}
+            </span>
           </div>
           <div className={styles.infoRow}>
             <span className={styles.infoLabel}>Quantity:</span>
