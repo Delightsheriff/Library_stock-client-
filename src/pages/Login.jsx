@@ -1,9 +1,38 @@
 import LandNav from "../components/Nav/LandNav";
 import Footer from "../components/Footer/Footer";
 import styles from "./Login.module.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import Spinner from "../components/Spinners/Spinner";
 
 function Login() {
+  const { login, isAuthenticated, loading } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      toast.error("Email and password cannot be empty.");
+      return;
+    }
+    login({ email, password });
+  };
+
+  useEffect(
+    function () {
+      if (isAuthenticated === true) {
+        const from = location.state?.from || "/books";
+        navigate(from, { replace: true });
+      }
+    },
+    [isAuthenticated, location.state, navigate],
+  );
+
   return (
     <>
       <LandNav />
@@ -21,7 +50,7 @@ function Login() {
           </div>
         </section>
         <div className={styles.divide}>
-          <form className={styles.form}>
+          <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.center}>
               <p className={styles.sub_title}>Login to Continue to Dashboard</p>
             </div>
@@ -33,6 +62,8 @@ function Login() {
                   placeholder="m@example.com"
                   required
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className={styles.input_box}>
@@ -42,9 +73,11 @@ function Login() {
                   placeholder="Enter your password"
                   required
                   type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <button className={styles.button}>Register</button>
+              <button className={styles.button}>Login</button>
             </div>
             <div className={styles.pass}>
               Don&apos;t have an account? &nbsp;
@@ -56,6 +89,7 @@ function Login() {
         </div>
       </main>
       <Footer />
+      {loading && <Spinner />}
     </>
   );
 }

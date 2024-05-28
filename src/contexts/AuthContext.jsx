@@ -77,6 +77,7 @@ function AuthProvider({ children }) {
   }
 
   async function login(data) {
+    console.log(data);
     setLoading(true);
     try {
       const response = await fetch(`${BASE_URL}/auth/login`, {
@@ -98,7 +99,8 @@ function AuthProvider({ children }) {
         toast.success(result.statusText || "Login successful!");
       } else {
         toast.error(
-          result.error ||
+          result.msg ||
+            result.error ||
             result.message ||
             "An error occurred. Please try again.",
         );
@@ -112,6 +114,7 @@ function AuthProvider({ children }) {
 
   function logout() {
     dispatch({ type: "logout" });
+    toast.success("Logout successful!");
   }
 
   return (
