@@ -196,7 +196,6 @@ function BookProvider({ children }) {
   };
 
   const borrowBook = async (borrowDetails, callback) => {
-    console.log(borrowDetails);
     setLoading(true);
     try {
       const response = await fetch(`${BASE_URL}/borrow-book/`, {

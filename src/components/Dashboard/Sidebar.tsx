@@ -106,7 +106,11 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Image boxSize="40px" objectFit="cover" src={logo} alt="logo" />
-        <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
+        <CloseButton
+          color={"black"}
+          display={{ base: "flex", md: "none" }}
+          onClick={onClose}
+        />
       </Flex>
       {LinkItems.map((link) => (
         <NavItem to={link.to} key={link.name} icon={link.icon}>
