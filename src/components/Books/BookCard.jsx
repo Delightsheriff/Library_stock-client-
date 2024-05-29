@@ -5,13 +5,13 @@ import picUrl from "../../assets/4877010.jpg";
 import { FiEdit } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
 
-const BookCard = ({ book, deleteBook }) => {
+const BookCard = ({ book, deleteBook, fetchBooks }) => {
   const handleDelete = () => {
     const shouldDelete = window.confirm(
       "Are you sure you want to delete this book?",
     );
     if (shouldDelete) {
-      deleteBook(book._id);
+      deleteBook(book._id, fetchBooks);
     }
   };
 
@@ -87,6 +87,7 @@ BookCard.propTypes = {
     description: PropTypes.string.isRequired,
   }).isRequired,
   deleteBook: PropTypes.func.isRequired,
+  fetchBooks: PropTypes.func.isRequired,
 };
 
 export default BookCard;

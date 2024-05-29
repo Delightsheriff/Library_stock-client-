@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useBooks } from "../../contexts/BookContext";
 import styles from "./AddBook.module.css";
+import { useNavigate } from "react-router-dom";
 
 function AddBook() {
-  const { addBook } = useBooks();
+  const navigate = useNavigate();
+  const { addBook, fetchBooks } = useBooks();
   const [formData, setFormData] = useState({
     title: "",
     author: "",
@@ -44,7 +46,7 @@ function AddBook() {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
@@ -52,7 +54,8 @@ function AddBook() {
       return;
     }
 
-    addBook(formData);
+    await addBook(formData, fetchBooks);
+    navigate("/books");
     // Optionally, clear the form after submission
     setFormData({
       title: "",

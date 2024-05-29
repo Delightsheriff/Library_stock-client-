@@ -63,7 +63,12 @@ const CategoryBooks = () => {
         <div className={styles.bookGrid}>
           {currentBooks.length ? (
             currentBooks.map((book) => (
-              <BookCard key={book._id} book={book} deleteBook={deleteBook} />
+              <BookCard
+                key={book._id}
+                book={book}
+                fetchBooks={fetchBooks}
+                deleteBook={deleteBook}
+              />
             ))
           ) : (
             <p>No books found in this category.</p>

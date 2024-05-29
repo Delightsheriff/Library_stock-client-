@@ -91,7 +91,7 @@ function BookProvider({ children }) {
     }
   };
 
-  const addBook = async (book) => {
+  const addBook = async (book, callback) => {
     setLoading(true);
     try {
       const response = await fetch(`${BASE_URL}/create-book`, {
@@ -105,6 +105,7 @@ function BookProvider({ children }) {
       if (response.ok) {
         dispatch({ type: "addBook", payload: data });
         toast.success("Book added successfully.");
+        if (callback) callback();
       } else {
         toast.error(data.message || "Failed to add book.");
       }
@@ -115,7 +116,7 @@ function BookProvider({ children }) {
     }
   };
 
-  const deleteBook = async (id) => {
+  const deleteBook = async (id, callback) => {
     setLoading(true);
     try {
       const response = await fetch(`${BASE_URL}/delete-book`, {
@@ -128,6 +129,7 @@ function BookProvider({ children }) {
       if (response.ok) {
         dispatch({ type: "deleteBook", payload: id });
         toast.success("Book deleted successfully.");
+        if (callback) callback();
       } else {
         const data = await response.json();
         toast.error(data.message || "Failed to delete book.");
