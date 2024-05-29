@@ -27,7 +27,7 @@ function LandNav() {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/signup" className="active">
+              <NavLink to="#" className="active">
                 Contact
               </NavLink>
             </li>
