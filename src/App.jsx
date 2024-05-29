@@ -1,22 +1,24 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import Spinner from "./components/Spinners/Spinner";
-import BorrowersList from "./components/Books/BookBorrowers";
-import { AuthProvider } from "./contexts/AuthContext";
-import ProtectedRoute from "./pages/ProtectedRoute";
-import CategoryBooks from "./components/Books/CategoryBooks";
 import { BookProvider } from "./contexts/BookContext";
-import EditBook from "./components/Books/EditBook";
+import { AuthProvider } from "./contexts/AuthContext";
+
+import Spinner from "./components/Spinners/Spinner";
+import BorrowersList from "./components/Borrowing/BorrowersList";
+import ProtectedRoute from "./pages/ProtectedRoute";
 
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 const Home = lazy(() => import("./pages/Home"));
 const Signup = lazy(() => import("./pages/Signup"));
 const Login = lazy(() => import("./pages/Login"));
 const MainApp = lazy(() => import("./pages/MainApp"));
+const CategoryBooks = lazy(() => import("./components/Books/CategoryBooks"));
 const AllBooks = lazy(() => import("./components/Books/AllBooks"));
 const AddBook = lazy(() => import("./components/Books/AddBook"));
-const BookBorrow = lazy(() => import("./components/Books/BookBorrow"));
+const EditBook = lazy(() => import("./components/Books/EditBook"));
+const Borrow = lazy(() => import("./components/Borrowing/Borrow"));
+const BookBorrow = lazy(() => import("./components/Borrowing/BorrowBook"));
 
 function App() {
   return (
@@ -41,6 +43,7 @@ function App() {
                   <Route index element={<AllBooks />} />
                   <Route path="books/add-book" element={<AddBook />} />
                   <Route path="books/borrow-book" element={<BookBorrow />} />
+                  <Route path="borrow/:id" element={<Borrow />} />
                   <Route
                     path="books/book-borrowers"
                     element={<BorrowersList />}

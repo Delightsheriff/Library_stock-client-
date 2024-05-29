@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 
 const BookContext = createContext();
 
-// const BASE_URL = "http://localhost:4001/api/v1/books";
-const BASE_URL = "https://library-stock.onrender.com/api/v1/books";
+const BASE_URL = "http://localhost:4001/api/v1/books";
+// const BASE_URL = "https://library-stock.onrender.com/api/v1/books";
 
 const initialState = {
   books: [],
@@ -50,19 +50,18 @@ function reducer(state, action) {
       return {
         ...state,
         borrowedBooks: [...state.borrowedBooks, action.payload],
-        books: state.books.map((book) =>
-          book.id === action.payload.id ? { ...book, available: false } : book,
-        ),
       };
 
+    case "borrowersList":
+      return {
+        ...state,
+        borrowedBooks: action.payload.borrowings,
+      };
     case "returnBook":
       return {
         ...state,
-        borrowedBooks: state.borrowedBooks.filter(
-          (book) => book.id !== action.payload,
-        ),
-        books: state.books.map((book) =>
-          book.id === action.payload ? { ...book, available: true } : book,
+        borrowedBooks: state.borrowedBooks.map((book) =>
+          book._id === action.payload ? { ...book, returned: true } : book,
         ),
       };
 
@@ -183,34 +182,65 @@ function BookProvider({ children }) {
     }
   };
 
-  const borrowBook = async (bookId) => {
+  const borrowersList = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${BASE_URL}/books/borrow/${bookId}`, {
+      const response = await fetch(`${BASE_URL}/all-borrowers`);
+      const data = await response.json();
+      dispatch({ type: "borrowersList", payload: data });
+    } catch (error) {
+      toast.error("Failed to fetch borrowed books.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const borrowBook = async (borrowDetails, callback) => {
+    console.log(borrowDetails);
+    setLoading(true);
+    try {
+      const response = await fetch(`${BASE_URL}/borrow-book/`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...borrowDetails,
+          borrowDate: new Date().toISOString().split("T")[0], // current date
+        }),
       });
       const data = await response.json();
       if (response.ok) {
-        dispatch({ type: "borrowBook", payload: data });
+        dispatch({
+          type: "borrowBook",
+          payload: { ...data, bookId: borrowDetails.bookId },
+        });
         toast.success("Book borrowed successfully.");
+        if (callback) callback();
       } else {
         toast.error(data.message || "Failed to borrow book.");
       }
     } catch (error) {
+      console.log(error);
       toast.error("Failed to borrow book.");
     } finally {
       setLoading(false);
     }
   };
 
-  const returnBook = async (bookId) => {
+  const returnBook = async (borrowingId) => {
     setLoading(true);
     try {
-      const response = await fetch(`${BASE_URL}/books/return/${bookId}`, {
-        method: "POST",
+      const response = await fetch(`${BASE_URL}/return-book`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ borrowingId, returned: true }),
       });
+
       if (response.ok) {
-        dispatch({ type: "returnBook", payload: bookId });
+        dispatch({ type: "returnBook", payload: borrowingId });
         toast.success("Book returned successfully.");
       } else {
         const data = await response.json();
@@ -222,6 +252,7 @@ function BookProvider({ children }) {
       setLoading(false);
     }
   };
+
   const resetSingleBook = () => {
     dispatch({ type: "resetSingleBook" });
   };
@@ -241,6 +272,7 @@ function BookProvider({ children }) {
         borrowBook,
         returnBook,
         getSingleBook,
+        borrowersList,
       }}
     >
       {children}

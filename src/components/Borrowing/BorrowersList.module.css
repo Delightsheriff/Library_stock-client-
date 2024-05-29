@@ -1,0 +1,84 @@
+.container {
+  max-width: 64rem; /* Tailwind's lg:max-w-6xl */
+  margin: 0 auto;
+  padding: 2rem 1rem; /* Tailwind's px-4 py-8 */
+}
+
+.title {
+  font-size: 2rem; /* Tailwind's text-3xl */
+  font-weight: bold;
+  margin-bottom: 1.5rem; /* Tailwind's mb-6 */
+}
+
+.card {
+  background-color: white;
+  border-radius: 0.5rem; /* Tailwind's rounded-lg */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Tailwind's shadow-md */
+  overflow: hidden;
+}
+
+.tableContainer {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableHeaderRow {
+  background-color: #f7fafc; /* Tailwind's bg-gray-100 */
+  color: #6b7280; /* Tailwind's text-gray-500 */
+  text-align: left;
+}
+
+.tableHeader {
+  padding: 0.75rem 1rem; /* Tailwind's px-4 py-3 */
+  font-weight: 500;
+}
+
+.tableRow {
+  border-bottom: 1px solid #e5e7eb; /* Tailwind's border-b border-gray-200 */
+}
+
+.tableData {
+  padding: 0.75rem 1rem; /* Tailwind's px-4 py-3 */
+}
+
+.flexContainer {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 2.5rem; /* Tailwind's w-10 */
+  height: 2.5rem; /* Tailwind's h-10 */
+  border-radius: 9999px; /* Tailwind's rounded-full */
+  background-color: #e5e7eb; /* Tailwind's bg-gray-200 */
+  margin-right: 0.75rem; /* Tailwind's mr-3 */
+}
+
+.borrowerName {
+  font-weight: 500;
+  color: #111827; /* Tailwind's text-gray-900 */
+}
+
+.borrowerEmail {
+  font-size: 0.875rem; /* Tailwind's text-sm */
+  color: #6b7280; /* Tailwind's text-gray-500 */
+}
+
+.text {
+  color: #111827; /* Tailwind's text-gray-900 */
+}
+
+.checkboxContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+}
+.checkboxContainer input[type="checkbox"] {
+  /* padding: 1rem; */
+  border: 1px solid #000;
+}
