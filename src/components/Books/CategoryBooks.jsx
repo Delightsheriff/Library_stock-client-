@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useBooks } from "../../contexts/BookContext"; // Adjust the path as necessary
 import styles from "./CategoryBooks.module.css";
 import BookCard from "./BookCard";
+import { IoArrowBack } from "react-icons/io5";
 
 const CategoryBooks = () => {
   const { category } = useParams();
-  const { books, fetchBooks, loading } = useBooks();
+  const { books, fetchBooks, loading, deleteBook } = useBooks();
   const [filteredBooks, setFilteredBooks] = useState([]);
-  console.log(category);
-  console.log(books);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (books.length === 0) {
@@ -28,6 +30,19 @@ const CategoryBooks = () => {
     return <p>Loading...</p>;
   }
 
+  function goBack(e) {
+    e.preventDefault();
+    navigate(-1);
+  }
+
+  // Calculate the books to display for the current page
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentBooks = filteredBooks.slice(
+    startIndex,
+    startIndex + itemsPerPage,
+  );
+  const totalPages = Math.ceil(filteredBooks.length / itemsPerPage);
+
   return (
     <main className={styles.main}>
       <div className={styles.container}>
@@ -38,28 +53,47 @@ const CategoryBooks = () => {
           <p className={styles.subtitle}>
             Browse through our selection of books in this category.
           </p>
+
+          <div className={styles.backBtn}>
+            <button className={styles.borrowButton} onClick={goBack}>
+              <IoArrowBack />
+            </button>
+          </div>
         </div>
-        <div className={styles.bookGrid} />
-        {filteredBooks.length ? (
-          filteredBooks.map((book) => <BookCard key={book.id} book={book} />)
-        ) : (
-          <p>No books found in this category.</p>
+        <div className={styles.bookGrid}>
+          {currentBooks.length ? (
+            currentBooks.map((book) => (
+              <BookCard key={book._id} book={book} deleteBook={deleteBook} />
+            ))
+          ) : (
+            <p>No books found in this category.</p>
+          )}
+        </div>
+        {totalPages > 1 && (
+          <div className={styles.pagination}>
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className={styles.borrowButton}
+            >
+              Previous
+            </button>
+            <span>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              disabled={currentPage === totalPages}
+              className={styles.borrowButton}
+            >
+              Next
+            </button>
+          </div>
         )}
       </div>
     </main>
-    // <div>
-
-    //   <h1>{category} Books</h1>
-    //   {filteredBooks.length ? (
-    //     <ul>
-    //       {filteredBooks.map((book) => (
-    //         <li key={book.id}>{book.title}</li>
-    //       ))}
-    //     </ul>
-    //   ) : (
-    //     <p>No books found in this category.</p>
-    //   )}
-    // </div>
   );
 };
 

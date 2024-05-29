@@ -7,6 +7,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import CategoryBooks from "./components/Books/CategoryBooks";
 import { BookProvider } from "./contexts/BookContext";
+import EditBook from "./components/Books/EditBook";
 
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 const Home = lazy(() => import("./pages/Home"));
@@ -14,7 +15,6 @@ const Signup = lazy(() => import("./pages/Signup"));
 const Login = lazy(() => import("./pages/Login"));
 const MainApp = lazy(() => import("./pages/MainApp"));
 const AllBooks = lazy(() => import("./components/Books/AllBooks"));
-// const BookList = lazy(() => import("./components/Books/BookList"));
 const AddBook = lazy(() => import("./components/Books/AddBook"));
 const BookBorrow = lazy(() => import("./components/Books/BookBorrow"));
 
@@ -47,6 +47,7 @@ function App() {
                   />
                   <Route path="books/settings" element={<p>Settings</p>} />
                   <Route path=":category" element={<CategoryBooks />} />
+                  <Route path="edit-book/:id" element={<EditBook />} />
                 </Route>
                 <Route path="*" element={<PageNotFound />} />
               </Routes>

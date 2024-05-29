@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
-const BASE_URL = "http://localhost:4001/api/v1/auth";
+// const BASE_URL = "http://localhost:4001/api/v1/auth";
+const BASE_URL = "https://library-stock.onrender.com/api/v1/auth";
 
 const initialState = {
   user: JSON.parse(localStorage.getItem("user")) || null,

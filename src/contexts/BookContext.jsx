@@ -4,10 +4,12 @@ import PropTypes from "prop-types";
 
 const BookContext = createContext();
 
-const BASE_URL = "http://localhost:4001/api/v1/books";
+// const BASE_URL = "http://localhost:4001/api/v1/books";
+const BASE_URL = "https://library-stock.onrender.com/api/v1/books";
 
 const initialState = {
   books: [],
+  singleBook: null,
   borrowedBooks: [],
 };
 
@@ -31,6 +33,17 @@ function reducer(state, action) {
         books: state.books.map((book) =>
           book.id === action.payload.id ? action.payload : book,
         ),
+      };
+    case "getSingleBook":
+      return {
+        ...state,
+        singleBook: action.payload.book,
+      };
+
+    case "resetSingleBook":
+      return {
+        ...state,
+        singleBook: null,
       };
 
     case "borrowBook":
@@ -59,7 +72,7 @@ function reducer(state, action) {
 }
 
 function BookProvider({ children }) {
-  const [{ books, borrowedBooks }, dispatch] = useReducer(
+  const [{ books, borrowedBooks, singleBook }, dispatch] = useReducer(
     reducer,
     initialState,
   );
@@ -105,8 +118,12 @@ function BookProvider({ children }) {
   const deleteBook = async (id) => {
     setLoading(true);
     try {
-      const response = await fetch(`${BASE_URL}delete-book/${id}`, {
+      const response = await fetch(`${BASE_URL}/delete-book`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
       });
       if (response.ok) {
         dispatch({ type: "deleteBook", payload: id });
@@ -122,11 +139,11 @@ function BookProvider({ children }) {
     }
   };
 
-  const updateBook = async (book) => {
+  const updateBook = async (book, callback) => {
     setLoading(true);
     try {
-      const response = await fetch(`${BASE_URL}/update-book/${book.id}`, {
-        method: "PUT",
+      const response = await fetch(`${BASE_URL}/update-book/${book._id}`, {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
@@ -136,11 +153,29 @@ function BookProvider({ children }) {
       if (response.ok) {
         dispatch({ type: "updateBook", payload: data });
         toast.success("Book updated successfully.");
+        if (callback) callback();
       } else {
         toast.error(data.message || "Failed to update book.");
       }
     } catch (error) {
       toast.error("Failed to update book.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getSingleBook = async (id) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${BASE_URL}/single-book/${id}`);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      dispatch({ type: "getSingleBook", payload: data });
+    } catch (error) {
+      toast.error("Failed to fetch book.");
+      console.error("Error fetching book:", error);
     } finally {
       setLoading(false);
     }
@@ -185,19 +220,25 @@ function BookProvider({ children }) {
       setLoading(false);
     }
   };
+  const resetSingleBook = () => {
+    dispatch({ type: "resetSingleBook" });
+  };
 
   return (
     <BookContext.Provider
       value={{
         books,
+        singleBook,
         borrowedBooks,
         loading,
+        resetSingleBook,
         fetchBooks,
         addBook,
         deleteBook,
         updateBook,
         borrowBook,
         returnBook,
+        getSingleBook,
       }}
     >
       {children}

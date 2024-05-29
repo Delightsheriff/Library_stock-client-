@@ -4,9 +4,10 @@
 
 .outer {
   background: url("../assets/bg-main.png");
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   color: var(--background);
+  background-repeat: no-repeat;
 }
 
 .container {
