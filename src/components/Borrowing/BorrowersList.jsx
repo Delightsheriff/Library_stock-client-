@@ -23,7 +23,7 @@ const BorrowersList = () => {
   const filteredBorrowedBooks = borrowedBooks.filter((book) => !book.returned);
 
   const findBookTitleById = (id) => {
-    const book = books.find((book) => book.book === id);
+    const book = books.find((book) => book._id === id);
     return book ? book.title : "Unknown Title";
   };
 
@@ -50,7 +50,7 @@ const BorrowersList = () => {
                     key={borrower._id}
                     borrower={borrower}
                     user={user}
-                    bookTitle={findBookTitleById(borrower.bookId)} // Pass the book title here
+                    bookTitle={findBookTitleById(borrower.book)} // Pass the book title here
                   />
                 ))
               ) : (
