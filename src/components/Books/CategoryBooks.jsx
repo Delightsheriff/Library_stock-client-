@@ -16,6 +16,7 @@ const CategoryBooks = () => {
   useEffect(() => {
     if (books.length === 0) {
       fetchBooks();
+      console.log("test2");
     }
   }, [books.length, fetchBooks]);
 
@@ -23,6 +24,7 @@ const CategoryBooks = () => {
     if (category && books.length > 0) {
       const filtered = books.filter((book) => book.category === category);
       setFilteredBooks(filtered);
+      console.log("test1");
     }
   }, [category, books]);
 

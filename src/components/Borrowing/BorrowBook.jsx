@@ -11,12 +11,15 @@ export default function BorrowBook() {
   useEffect(() => {
     if (books.length === 0) {
       fetchBooks();
+      // console.log("test2");
     }
-  }, [books.length, fetchBooks]);
-
-  useEffect(() => {
     setIsLoading(loading);
-  }, [loading]);
+    // console.log("test1");
+  }, [books.length, fetchBooks, loading]);
+
+  // useEffect(() => {
+  //   setIsLoading(loading);
+  // }, [loading]);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);

@@ -13,6 +13,7 @@ const initialState = {
   isAuthenticated: !!localStorage.getItem("accessToken"),
   accessToken: localStorage.getItem("accessToken") || null,
   refreshToken: localStorage.getItem("refreshToken") || null,
+  users: [],
 };
 
 function reducer(state, action) {
@@ -40,6 +41,8 @@ function reducer(state, action) {
         accessToken: null,
         refreshToken: null,
       };
+    case "fetchUsers":
+      return { ...state, users: action.payload.users };
     default:
       throw new Error(`Unknown action type: ${action.type}`);
   }
@@ -48,7 +51,7 @@ function reducer(state, action) {
 function AuthProvider({ children }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [{ user, isAuthenticated, accessToken }, dispatch] = useReducer(
+  const [{ user, isAuthenticated, accessToken, users }, dispatch] = useReducer(
     reducer,
     initialState,
   );
@@ -86,7 +89,6 @@ function AuthProvider({ children }) {
   }
 
   async function login(data) {
-    console.log(data);
     setLoading(true);
     try {
       const response = await fetch(`${BASE_URL}/login`, {
@@ -126,10 +128,23 @@ function AuthProvider({ children }) {
     toast.success("Logout successful!");
   }
 
+  async function fetchUsers() {
+    setLoading(true);
+    try {
+      const response = await fetch(`${BASE_URL}/users`);
+      const data = await response.json();
+      dispatch({ type: "fetchUsers", payload: data });
+    } catch (error) {
+      toast.error("Failed to fetch users.");
+    } finally {
+      setLoading(false);
+    }
+  }
   return (
     <AuthContext.Provider
       value={{
         user,
+        users,
         isAuthenticated,
         accessToken,
         dispatch,
@@ -138,6 +153,7 @@ function AuthProvider({ children }) {
         logout,
         createAccount,
         login,
+        fetchUsers,
       }}
     >
       {children}

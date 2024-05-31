@@ -3,7 +3,7 @@ import styles from "./BorrowersList.module.css";
 import PropTypes from "prop-types";
 
 //eslint-disable-next-line
-const BorrowersTableRow = ({ borrower, user, bookTitle }) => {
+const BorrowersTableRow = ({ borrower, librarianUsername, bookTitle }) => {
   const { returnBook } = useBooks();
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -52,7 +52,8 @@ const BorrowersTableRow = ({ borrower, user, bookTitle }) => {
       </td>
 
       <td className={styles.tableData}>
-        <div className={styles.text}>{user.username}</div> {/* Change here */}
+        <div className={styles.text}>{librarianUsername}</div>{" "}
+        {/* Change here */}
       </td>
       <td className={styles.tableData}>
         <div className={styles.checkboxContainer}>
@@ -77,9 +78,7 @@ BorrowersTableRow.propTypes = {
     returned: PropTypes.bool,
     bookId: PropTypes.string,
   }).isRequired,
-  user: PropTypes.shape({
-    username: PropTypes.string.isRequired,
-  }).isRequired,
+  librarianUsername: PropTypes.string.isRequired,
   bookTitle: PropTypes.string.isRequired,
 };
 
